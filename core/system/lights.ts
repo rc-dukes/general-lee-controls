@@ -1,0 +1,34 @@
+import * as servoblaster from "servoblaster";
+
+/** Lights. */
+export class Lights {
+    SERVOBLASTER_ID_LED: number = 6; // GPIO-24
+    LED_ON: number = 250;
+    LED_OFF: number = 0;
+
+    on: boolean;
+
+    /** Constructor. */
+    constructor() {
+        this.on = false;
+    }
+
+    /** Turn the lights on. */
+    turnOn() {
+        this.on = true;
+        this.setLights();
+    }
+
+    /** Turn the lights off. */
+    turnOff() {
+        this.on = false;
+        this.setLights();
+    }
+
+    /** Sets the speed. */
+    private setLights() {
+        const stream = servoblaster.createWriteStream(this.SERVOBLASTER_ID_LED);
+        stream.write(this.on ? this.LED_ON : this.LED_OFF);
+        stream.end();
+    }
+}
