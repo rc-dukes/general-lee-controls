@@ -43,10 +43,24 @@ describe('Engine', () => {
             });
         });
 
-        describe('while driving', () => {
+        describe('while driving forward', () => {
             it('increases the current speed with the speed step size setting', () => {
                 const expected = engine.MIN_SPEED_FORWARD + engine.SPEED_STEP_SIZE;
                 engine.currentSpeed = engine.MIN_SPEED_FORWARD;
+
+                engine.increaseSpeed();
+
+                expect(engine.currentSpeed).toBe(expected);
+                sinon.assert.calledWith(servoblasterCreateWriteStreamFn, engine.SERVOBLASTER_ID_MOTOR);
+                sinon.assert.calledWith(streamWriteFn, expected);
+                sinon.assert.called(streamEndFn);
+            });
+        });
+
+        describe('while driving reverse', () => {
+            it('decreases the current speed with the speed step size setting', () => {
+                const expected = engine.MAX_SPEED_REVERSE + engine.SPEED_STEP_SIZE;
+                engine.currentSpeed = engine.MAX_SPEED_REVERSE;
 
                 engine.increaseSpeed();
 
@@ -100,10 +114,24 @@ describe('Engine', () => {
             });
         });
 
-        describe('while driving', () => {
+        describe('while driving reverse', () => {
             it('increases the current speed with the speed step size setting', () => {
                 const expected = engine.MIN_SPEED_REVERSE - engine.SPEED_STEP_SIZE;
                 engine.currentSpeed = engine.MIN_SPEED_REVERSE;
+
+                engine.decreaseSpeed();
+
+                expect(engine.currentSpeed).toBe(expected);
+                sinon.assert.calledWith(servoblasterCreateWriteStreamFn, engine.SERVOBLASTER_ID_MOTOR);
+                sinon.assert.calledWith(streamWriteFn, expected);
+                sinon.assert.called(streamEndFn);
+            });
+        });
+
+        describe('while driving forward', () => {
+            it('decreases the current speed with the speed step size setting', () => {
+                const expected = engine.MAX_SPEED_FORWARD - engine.SPEED_STEP_SIZE;
+                engine.currentSpeed = engine.MAX_SPEED_FORWARD;
 
                 engine.decreaseSpeed();
 
@@ -144,13 +172,26 @@ describe('Engine', () => {
     });
 
     describe('stop', () => {
-        it('sets the current speed to zero', () => {
-            const expected = engine.SPEED_ZERO;
-            engine.currentSpeed = engine.MAX_SPEED_FORWARD;
+        describe('while driving reverse', () => {
+            it('sets the current speed to zero', () => {
+                const expected = engine.SPEED_ZERO;
+                engine.currentSpeed = engine.MAX_SPEED_REVERSE;
 
-            engine.stop();
+                engine.stop();
 
-            expect(engine.currentSpeed).toBe(expected);
+                expect(engine.currentSpeed).toBe(expected);
+            });
+        });
+
+        describe('while driving forward', () => {
+            it('sets the current speed to zero', () => {
+                const expected = engine.SPEED_ZERO;
+                engine.currentSpeed = engine.MAX_SPEED_FORWARD;
+
+                engine.stop();
+
+                expect(engine.currentSpeed).toBe(expected);
+            });
         });
     });
 
