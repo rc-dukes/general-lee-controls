@@ -1,4 +1,3 @@
-import {Engine} from "./engine";
 import * as sinon from "sinon";
 import * as servoblaster from "servoblaster";
 import {Stream} from "servoblaster";
