@@ -9,15 +9,15 @@ export class WheelsRouter {
         this.router = express.Router();
 
         this.router.post('/turn-left', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.turnLeft);
+            this.handle(res, ()=> this.generalLee.wheels.turnLeft());
         });
 
         this.router.post('/turn-right', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.turnRight);
+            this.handle(res, ()=> this.generalLee.wheels.turnRight());
         });
 
         this.router.post('/center', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.center);
+            this.handle(res, ()=> this.generalLee.wheels.center());
         });
     }
 
@@ -35,7 +35,6 @@ export class WheelsRouter {
      * @param fn The function to perform.
      */
     private handle(res: express.Response, fn: Function) {
-        console.log('handle wheels');
         if (this.generalLee.isRunning()) {
             fn();
             res.status(200);

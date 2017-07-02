@@ -9,15 +9,15 @@ export class EngineRouter {
         this.router = express.Router();
 
         this.router.post('/increase-speed', (req: express.Request, res: express.Response) => {
-            this.handle(res, () => this.generalLee.engine.increaseSpeed);
+            this.handle(res, () => this.generalLee.engine.increaseSpeed());
         });
 
         this.router.post('/decrease-speed', (req: express.Request, res: express.Response) => {
-            this.handle(res, () => this.generalLee.engine.decreaseSpeed);
+            this.handle(res, () => this.generalLee.engine.decreaseSpeed());
         });
 
         this.router.post('/break', (req: express.Request, res: express.Response) => {
-            this.handle(res, () => this.generalLee.engine.stop);
+            this.handle(res, () => this.generalLee.engine.stop());
         });
     }
 
