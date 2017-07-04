@@ -1,0 +1,7 @@
+# typescript
+**/*.ts
+tslint.json
+tsconfig.json
+
+# specs
+**/*.spec.js
