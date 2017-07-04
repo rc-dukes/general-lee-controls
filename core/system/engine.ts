@@ -1,7 +1,13 @@
+import {injectable} from "inversify";
+import "reflect-metadata";
 import * as servoblaster from "servoblaster";
+export interface X {
+
+}
 
 /** Engine. */
-export class Engine {
+@injectable()
+class Engine {
     SERVOBLASTER_ID_MOTOR: number = 1; // GPIO-17
     SPEED_ZERO: number = 130;
     SPEED_STEP_SIZE: number = 1;
@@ -63,3 +69,5 @@ export class Engine {
         stream.end();
     }
 }
+
+export default Engine;

@@ -1,7 +1,9 @@
 import * as servoblaster from "servoblaster";
+import {injectable} from "inversify";
 
 /** Lights. */
-export class Lights {
+@injectable()
+class Lights {
     SERVOBLASTER_ID_LED: number = 6; // GPIO-24
     LED_ON: number = 250;
     LED_OFF: number = 0;
@@ -32,3 +34,5 @@ export class Lights {
         stream.end();
     }
 }
+
+export default Lights;

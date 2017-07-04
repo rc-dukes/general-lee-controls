@@ -1,19 +1,23 @@
 'use strict';
-import {GeneralLee} from "./system/generalLee";
+import GeneralLee from "./system/generalLee";
+import {inject, injectable} from "inversify";
 
 /**
  * Heartbeat is the unit that monitors if there is an active connection.
  * When no connection is present, the engine will be turned off.
  */
-export class Heartbeat {
+@injectable()
+class Heartbeat {
     HEARTBEAT_INTERVAL_MS: number = 150;
     last: number;
+
+    @inject("generalLee") public generalLee: GeneralLee
 
     /**
      * Constructor.
      * @param generalLee The general lee.
      */
-    constructor(private generalLee: GeneralLee) {
+    constructor() {
         this.last = 0;
     }
 
@@ -33,3 +37,5 @@ export class Heartbeat {
         }, this.HEARTBEAT_INTERVAL_MS);
     }
 }
+
+export default Heartbeat;

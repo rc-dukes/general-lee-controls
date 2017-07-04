@@ -1,16 +1,28 @@
 import * as sinon from "sinon";
-import {Heartbeat} from "./heartbeat";
-import {GeneralLee} from "./system/generalLee";
+import Heartbeat from "./heartbeat";
+import GeneralLee from "./system/generalLee";
+import {Container} from "inversify";
 
 describe('Heartbeat', () => {
     let generalLee: GeneralLee;
     let heartbeat: Heartbeat;
     let clock: sinon.SinonFakeTimers;
+    let generalLeeIsRunningFn: sinon.SinonStub;
+    let generalLeeShutdownFn: sinon.SinonStub;
 
     beforeEach(() => {
-        generalLee = new GeneralLee();
+        generalLee = sinon.createStubInstance(GeneralLee);
+        generalLeeIsRunningFn = sinon.stub();
+        generalLeeShutdownFn = sinon.stub();
+        generalLee.isRunning = generalLeeIsRunningFn;
+        generalLee.shutdown = generalLeeShutdownFn;
         clock = sinon.useFakeTimers();
-        heartbeat = new Heartbeat(generalLee);
+
+        const container = new Container();
+        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
+        container.bind<Heartbeat>("heartbeat").to(Heartbeat);
+
+        heartbeat = container.get<Heartbeat>("heartbeat");
     });
 
     describe('constructor', () => {
@@ -26,7 +38,6 @@ describe('Heartbeat', () => {
             });
 
             it('does not check if the general lee is running', () => {
-                let generalLeeIsRunningFn = sinon.stub(generalLee, 'isRunning');
 
                 heartbeat.start();
                 clock.tick(millisPassed);
@@ -41,11 +52,10 @@ describe('Heartbeat', () => {
                 millisPassed = 900; // 6 beats
             });
             it('checks every the interval to check for missing heartbeats', () => {
-                let generalLeeIsRunningFn = sinon.stub(generalLee, 'isRunning')
+
                 generalLeeIsRunningFn.onFirstCall().returns(false);
                 generalLeeIsRunningFn.onSecondCall().returns(true);
                 generalLeeIsRunningFn.onThirdCall().returns(false);
-                let generalLeeShutdownFn = sinon.stub(generalLee, 'shutdown');
 
                 heartbeat.start();
                 clock.tick(millisPassed);

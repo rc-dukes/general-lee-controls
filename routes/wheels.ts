@@ -1,32 +1,27 @@
-import * as express  from "express";
-import {GeneralLee} from "../core/system/generalLee";
+import * as express from "express";
+import GeneralLee from "../core/system/generalLee";
+import {inject, injectable} from "inversify";
 
 /** Router responsible for routing all wheels related api calls. */
-export class WheelsRouter {
-    private router: express.Router;
+@injectable()
+class WheelsRouter {
+    public router: express.Router;
 
-    constructor(private generalLee: GeneralLee) {
+    /** Constructor. */
+    constructor(@inject("generalLee") private generalLee: GeneralLee) {
         this.router = express.Router();
 
         this.router.post('/turn-left', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.turnLeft());
+            this.handle(res, () => this.generalLee.wheels.turnLeft());
         });
 
         this.router.post('/turn-right', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.turnRight());
+            this.handle(res, () => this.generalLee.wheels.turnRight());
         });
 
         this.router.post('/center', (req: express.Request, res: express.Response) => {
-            this.handle(res, ()=> this.generalLee.wheels.center());
+            this.handle(res, () => this.generalLee.wheels.center());
         });
-    }
-
-    /**
-     * Gets the routes.
-     * @returns {express.Router}
-     */
-    routes() {
-        return this.router;
     }
 
     /**
@@ -44,3 +39,5 @@ export class WheelsRouter {
         res.end();
     }
 }
+
+export default WheelsRouter;

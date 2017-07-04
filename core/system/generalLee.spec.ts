@@ -1,8 +1,9 @@
-import {Engine} from "./engine";
+import Engine from "./engine";
 import * as sinon from "sinon";
-import {GeneralLee} from "./generalLee";
-import {Lights} from "./lights";
-import {Wheels} from "./wheels";
+import GeneralLee from "./generalLee";
+import Lights from "./lights";
+import Wheels from "./wheels";
+import {Container} from "inversify";
 
 describe('General Lee', () => {
     let generalLee: GeneralLee;
@@ -12,7 +13,12 @@ describe('General Lee', () => {
     let wheelsCenterFn: sinon.SinonSpy;
 
     beforeEach(() => {
-        generalLee = new GeneralLee();
+        const container = new Container();
+        container.bind<GeneralLee>("generalLee").to(GeneralLee);
+        container.bind<Engine>("engine").to(Engine);
+        container.bind<Wheels>("wheels").to(Wheels);
+        container.bind<Lights>("lights").to(Lights);
+        generalLee = container.get<GeneralLee>("generalLee");
         engineStopFn = sinon.stub(Engine.prototype, 'stop');
         lightsTurnOnFn = sinon.stub(Lights.prototype, 'turnOn');
         lightsTurnOffFn = sinon.stub(Lights.prototype, 'turnOff');

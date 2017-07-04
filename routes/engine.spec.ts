@@ -1,31 +1,73 @@
 import * as sinon from "sinon";
 import * as express from "express";
-import {EngineRouter} from "./engine";
-import {GeneralLee} from "../core/system/generalLee";
-import {Wheels} from "../core/system/wheels";
+import EngineRouter from "./engine";
+import GeneralLee from "../core/system/generalLee";
+import Engine from "../core/system/engine";
+import {Container} from "inversify";
 
 describe('EngineRouter', () => {
     let engineRouter: EngineRouter;
     let generalLee: GeneralLee;
+    let engine: Engine;
+    let generalLeeIsRunningFn: sinon.SinonStub;
+    let generalLeeEngineIncreaseSpeedFn: sinon.SinonStub;
+    let generalLeeEngineDecreaseSpeedFn: sinon.SinonStub;
+    let generalLeeEngineBreakFn: sinon.SinonStub;
+
+    let responseStatusFn: sinon.SinonStub;
+    let responseEndFn: sinon.SinonStub;
+
+    let request: any = {};
+    let response: any;
 
     let routerPostFn: sinon.SinonStub;
     let router: any;
     let routerFn: sinon.SinonStub;
 
+    // The route callbacks
+    let routes: { [endpoint: string]: Function };
+
     beforeEach(() => {
         generalLee = sinon.createStubInstance(GeneralLee);
+        generalLeeIsRunningFn = sinon.stub();
+        generalLee.isRunning = generalLeeIsRunningFn;
 
+        engine = sinon.createStubInstance(Engine);
+        generalLeeEngineIncreaseSpeedFn = sinon.stub();
+        generalLeeEngineDecreaseSpeedFn = sinon.stub();
+        generalLeeEngineBreakFn = sinon.stub();
+        generalLee.engine = engine;
+        generalLee.engine.increaseSpeed = generalLeeEngineIncreaseSpeedFn;
+        generalLee.engine.decreaseSpeed = generalLeeEngineDecreaseSpeedFn;
+        generalLee.engine.stop = generalLeeEngineBreakFn;
+
+        responseStatusFn = sinon.stub();
+        responseEndFn = sinon.stub();
         routerPostFn = sinon.stub();
+
+        routes = {};
+
+        routerPostFn.callsFake((endpoint: string, fn: Function) => {
+            routes[endpoint] = fn;
+        });
+
+        response = {
+            status: responseStatusFn,
+            end: responseEndFn
+        };
         router = {post: routerPostFn};
         routerFn = sinon.stub(express, 'Router').callsFake(() => {
             return router;
         });
+
+        const container = new Container();
+        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
+        container.bind<EngineRouter>("engineRouter").to(EngineRouter);
+
+        engineRouter = container.get<EngineRouter>("engineRouter");
     });
 
     describe('constructor', () => {
-        beforeEach(() => {
-            engineRouter = new EngineRouter(generalLee);
-        });
         it('creates a new router', () =>
             sinon.assert.calledOnce(routerFn));
 
@@ -45,11 +87,8 @@ describe('EngineRouter', () => {
     });
 
     describe('routes', () => {
-        beforeEach(() => {
-            engineRouter = new EngineRouter(generalLee);
-        });
         it('gets the created router', () =>
-            expect(engineRouter.routes()).toBe(router));
+            expect(engineRouter.router).toBe(router));
 
         afterEach(() => {
             routerFn.restore();
@@ -58,43 +97,6 @@ describe('EngineRouter', () => {
     });
 
     describe('actions', () => {
-        let generalLeeIsRunningFn: sinon.SinonStub;
-        let generalLeeEngineIncreaseSpeedFn: sinon.SinonStub;
-        let generalLeeEngineDecreaseSpeedFn: sinon.SinonStub;
-        let generalLeeEngineBreakFn: sinon.SinonStub;
-
-        let responseStatusFn: sinon.SinonStub;
-        let responseEndFn: sinon.SinonStub;
-        // The route callbacks
-        let routes: { [endpoint: string]: Function };
-
-        let request: any = {};
-        let response: any;
-
-        beforeEach(() => {
-            generalLee.isRunning = generalLeeIsRunningFn = sinon.stub();
-            generalLee.engine = sinon.createStubInstance(Wheels);
-            generalLee.engine.increaseSpeed = generalLeeEngineIncreaseSpeedFn = sinon.stub();
-            generalLee.engine.decreaseSpeed = generalLeeEngineDecreaseSpeedFn = sinon.stub();
-            generalLee.engine.stop = generalLeeEngineBreakFn = sinon.stub();
-
-            responseStatusFn = sinon.stub();
-            responseEndFn = sinon.stub();
-
-            routes = {};
-
-            routerPostFn.callsFake((endpoint: string, fn: Function) => {
-                routes[endpoint] = fn;
-            });
-
-            response = {
-                status: responseStatusFn,
-                end: responseEndFn
-            };
-
-            engineRouter = new EngineRouter(generalLee);
-        });
-
         describe('while general lee is running', () => {
             beforeEach(() => {
                 generalLeeIsRunningFn.returns(true);

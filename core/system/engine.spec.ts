@@ -1,7 +1,8 @@
-import {Engine} from "./engine";
+import Engine from "./engine";
 import * as sinon from "sinon";
 import * as servoblaster from "servoblaster";
 import {Stream} from "servoblaster";
+import {Container} from "inversify";
 
 describe('Engine', () => {
     let engine: Engine;
@@ -10,8 +11,10 @@ describe('Engine', () => {
     let streamEndFn: sinon.SinonStub;
 
     beforeEach(() => {
-        engine = new Engine();
-        let stream: Stream = {
+        const container = new Container();
+        container.bind<Engine>("engine").to(Engine);
+        engine = container.get<Engine>("engine");
+        const stream: Stream = {
             write: (value: number) => {
             },
             end: () => {

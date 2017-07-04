@@ -1,31 +1,73 @@
 import * as sinon from "sinon";
 import * as express from "express";
-import {WheelsRouter} from "./wheels";
-import {GeneralLee} from "../core/system/generalLee";
-import {Wheels} from "../core/system/wheels";
+import WheelsRouter from "./wheels";
+import GeneralLee from "../core/system/generalLee";
+import Wheels from "../core/system/wheels";
+import {Container} from "inversify";
 
 describe('WheelsRouter', () => {
     let wheelsRouter: WheelsRouter;
     let generalLee: GeneralLee;
+    let wheels: Wheels;
+    let generalLeeIsRunningFn: sinon.SinonStub;
+    let generalLeeWheelsTurnLeftFn: sinon.SinonStub;
+    let generalLeeWheelsTurnRightFn: sinon.SinonStub;
+    let generalLeeWheelsCenterFn: sinon.SinonStub;
+
+    let responseStatusFn: sinon.SinonStub;
+    let responseEndFn: sinon.SinonStub;
+
+    let request: any = {};
+    let response: any;
 
     let routerPostFn: sinon.SinonStub;
     let router: any;
     let routerFn: sinon.SinonStub;
 
+    // The route callbacks
+    let routes: { [endpoint: string]: Function };
+
     beforeEach(() => {
         generalLee = sinon.createStubInstance(GeneralLee);
+        generalLeeIsRunningFn = sinon.stub();
+        generalLee.isRunning = generalLeeIsRunningFn;
 
+        wheels = sinon.createStubInstance(Wheels);
+        generalLeeWheelsTurnLeftFn = sinon.stub();
+        generalLeeWheelsTurnRightFn = sinon.stub();
+        generalLeeWheelsCenterFn = sinon.stub();
+        generalLee.wheels = wheels;
+        generalLee.wheels.turnLeft = generalLeeWheelsTurnLeftFn;
+        generalLee.wheels.turnRight = generalLeeWheelsTurnRightFn;
+        generalLee.wheels.center = generalLeeWheelsCenterFn;
+
+        responseStatusFn = sinon.stub();
+        responseEndFn = sinon.stub();
         routerPostFn = sinon.stub();
+
+        routes = {};
+
+        routerPostFn.callsFake((endpoint: string, fn: Function) => {
+            routes[endpoint] = fn;
+        });
+
+        response = {
+            status: responseStatusFn,
+            end: responseEndFn
+        };
         router = {post: routerPostFn};
         routerFn = sinon.stub(express, 'Router').callsFake(() => {
             return router;
         });
+
+        const container = new Container();
+        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
+        container.bind<WheelsRouter>("wheelsRouter").to(WheelsRouter);
+
+        wheelsRouter = container.get<WheelsRouter>("wheelsRouter");
     });
 
     describe('constructor', () => {
-        beforeEach(() => {
-            wheelsRouter = new WheelsRouter(generalLee);
-        });
         it('creates a new router', () =>
             sinon.assert.calledOnce(routerFn));
 
@@ -45,11 +87,8 @@ describe('WheelsRouter', () => {
     });
 
     describe('routes', () => {
-        beforeEach(() => {
-            wheelsRouter = new WheelsRouter(generalLee);
-        });
         it('gets the created router', () =>
-            expect(wheelsRouter.routes()).toBe(router));
+            expect(wheelsRouter.router).toBe(router));
 
         afterEach(() => {
             routerFn.restore();
@@ -58,43 +97,6 @@ describe('WheelsRouter', () => {
     });
 
     describe('actions', () => {
-        let generalLeeIsRunningFn: sinon.SinonStub;
-        let generalLeeWheelsTurnLeftFn: sinon.SinonStub;
-        let generalLeeWheelsTurnRightFn: sinon.SinonStub;
-        let generalLeeWheelsCenterFn: sinon.SinonStub;
-
-        let responseStatusFn: sinon.SinonStub;
-        let responseEndFn: sinon.SinonStub;
-        // The route callbacks
-        let routes: { [endpoint: string]: Function };
-
-        let request: any = {};
-        let response: any;
-
-        beforeEach(() => {
-            generalLee.isRunning = generalLeeIsRunningFn = sinon.stub();
-            generalLee.wheels = sinon.createStubInstance(Wheels);
-            generalLee.wheels.turnLeft = generalLeeWheelsTurnLeftFn = sinon.stub();
-            generalLee.wheels.turnRight = generalLeeWheelsTurnRightFn = sinon.stub();
-            generalLee.wheels.center = generalLeeWheelsCenterFn = sinon.stub();
-
-            responseStatusFn = sinon.stub();
-            responseEndFn = sinon.stub();
-
-            routes = {};
-
-            routerPostFn.callsFake((endpoint: string, fn: Function) => {
-                routes[endpoint] = fn;
-            });
-
-            response = {
-                status: responseStatusFn,
-                end: responseEndFn
-            };
-
-            wheelsRouter = new WheelsRouter(generalLee);
-        });
-
         describe('while general lee is running', () => {
             beforeEach(() => {
                 generalLeeIsRunningFn.returns(true);

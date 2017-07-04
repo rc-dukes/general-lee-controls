@@ -1,29 +1,22 @@
-import {Router}  from "express";
-import {GeneralLee} from "../core/system/generalLee";
-import {Heartbeat} from "../core/heartbeat";
-import {HeartbeatRouter} from "./heartbeat";
-import {WheelsRouter} from "./wheels";
-import {EngineRouter} from "./engine";
+import * as express from "express";
+import HeartbeatRouter from "./heartbeat";
+import WheelsRouter from "./wheels";
+import EngineRouter from "./engine";
+import {inject, injectable} from "inversify";
 
 /** Routes. */
-export class Routes {
-    private router: Router;
+@injectable()
+class Routes {
+    public router: express.Router;
 
-    /**
-     * Constructor.
-     * @param generalLee The general lee.
-     * @param heartbeat The heartbeat.
-     */
-    constructor(private generalLee: GeneralLee, private heartbeat: Heartbeat) {
-        this.router = Router();
-
-        const heartbeatRouter = new HeartbeatRouter(generalLee, heartbeat);
-        const wheelsRouter = new WheelsRouter(generalLee);
-        const engineRouter = new EngineRouter(generalLee);
-
-        this.router.use('/heartbeat', heartbeatRouter.routes());
-        this.router.use('/wheels', wheelsRouter.routes());
-        this.router.use('/engine', engineRouter.routes());
+    /** Constructor. */
+    constructor(@inject("heartbeatRouter") private heartbeatRouter: HeartbeatRouter,
+                @inject("engineRouter") private engineRouter: EngineRouter,
+                @inject("wheelsRouter") private wheelsRouter: WheelsRouter) {
+        this.router = express.Router();
+        this.router.use('/heartbeat',this.heartbeatRouter.router);
+        this.router.use('/engine', this.engineRouter.router);
+        this.router.use('/wheels', this.wheelsRouter.router);
     }
 
     /**
@@ -34,3 +27,5 @@ export class Routes {
         return this.router;
     }
 }
+
+export default Routes;

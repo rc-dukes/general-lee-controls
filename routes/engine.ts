@@ -1,11 +1,14 @@
-import * as express  from "express";
-import {GeneralLee} from "../core/system/generalLee";
+import * as express from "express";
+import GeneralLee from "../core/system/generalLee";
+import {inject, injectable} from "inversify";
 
 /** Router responsible for routing all engine related api calls. */
-export class EngineRouter {
-    private router: express.Router;
+@injectable()
+class EngineRouter {
+    public router: express.Router;
 
-    constructor(private generalLee: GeneralLee) {
+    /** Constructor. */
+    constructor(@inject("generalLee") private generalLee: GeneralLee) {
         this.router = express.Router();
 
         this.router.post('/increase-speed', (req: express.Request, res: express.Response) => {
@@ -19,14 +22,6 @@ export class EngineRouter {
         this.router.post('/break', (req: express.Request, res: express.Response) => {
             this.handle(res, () => this.generalLee.engine.stop());
         });
-    }
-
-    /**
-     * Gets the routes.
-     * @returns {express.Router} routes The routes
-     */
-    routes() {
-        return this.router;
     }
 
     /**
@@ -44,3 +39,5 @@ export class EngineRouter {
         res.end();
     }
 }
+
+export default EngineRouter;

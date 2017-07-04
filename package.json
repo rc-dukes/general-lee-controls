@@ -42,6 +42,8 @@
   },
   "dependencies": {
     "express": "4.15.3",
+    "inversify": "^4.1.1",
+    "reflect-metadata": "^0.1.10",
     "servoblaster": "0.1.1"
   }
 }

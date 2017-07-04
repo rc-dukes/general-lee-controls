@@ -1,7 +1,9 @@
 import * as servoblaster from "servoblaster";
+import {injectable} from "inversify";
 
 /** Wheels.*/
-export class Wheels {
+@injectable()
+class Wheels {
     SERVOBLASTER_ID_WHEEL: number = 2; // GPIO-18
     WHEEL_MAX_LEFT: number = 120;
     WHEEL_MAX_RIGHT: number = 190;
@@ -46,3 +48,5 @@ export class Wheels {
         stream.end();
     }
 }
+
+export default Wheels;

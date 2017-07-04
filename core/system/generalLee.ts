@@ -1,19 +1,18 @@
-import {Engine} from "./engine";
-import {Lights} from "./lights";
-import {Wheels} from "./wheels";
+import {inject, injectable} from "inversify";
+import Engine from "./engine";
+import Wheels from "./wheels";
+import Lights from "./lights";
 
 /** The General Lee. */
-export class GeneralLee {
-    engine: Engine;
-    lights: Lights;
-    wheels: Wheels;
+@injectable()
+class GeneralLee {
+    @inject("engine") public engine: Engine;
+    @inject("wheels") public wheels: Wheels;
+    @inject("lights") public lights: Lights;
     running: boolean;
 
     /** Constructor. */
     constructor() {
-        this.engine = new Engine();
-        this.lights = new Lights();
-        this.wheels = new Wheels();
         this.running = false;
     }
 
@@ -41,3 +40,5 @@ export class GeneralLee {
         this.engine.stop();
     }
 }
+
+export default GeneralLee;

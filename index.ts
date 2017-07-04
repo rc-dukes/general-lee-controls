@@ -1,18 +1,21 @@
-import {GeneralLee} from "./core/system/generalLee";
-import {Heartbeat} from "./core/heartbeat";
 import * as express from "express";
-import {Routes} from "./routes/routes";
+import Heartbeat from "./core/heartbeat";
+import Routes from "./routes/routes";
+import {Container} from "inversify";
+import coreContainerModule from "./core/configuration";
+import routesContainerModule from "./routes/configuration";
 
 (() => {
-    const SERVER_PORT: number = 3001;
+    let container = new Container();
+    container.load(coreContainerModule, routesContainerModule);
 
-    const generalLee = new GeneralLee();
-    const heartbeat = new Heartbeat(generalLee);
+    const SERVER_PORT: number = 3001;
+    const heartbeat: Heartbeat = container.get<Heartbeat>("heartbeat");
     const app = express();
 
     heartbeat.start();
 
-    app.use('/', new Routes(generalLee, heartbeat).routes());
+    app.use('/', container.get<Routes>("routes").router);
 
     app.listen(SERVER_PORT, () => {
         console.log('General lee is listening on port', SERVER_PORT);
