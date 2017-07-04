@@ -1,9 +1,6 @@
 import {injectable} from "inversify";
 import "reflect-metadata";
 import * as servoblaster from "servoblaster";
-export interface X {
-
-}
 
 /** Engine. */
 @injectable()
