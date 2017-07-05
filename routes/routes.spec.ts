@@ -1,10 +1,10 @@
-import * as sinon from "sinon";
-import * as express from "express";
-import Routes from "./routes";
-import HeartbeatRouter from "./heartbeat";
-import WheelsRouter from "./wheels";
-import EngineRouter from "./engine";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import * as express from 'express';
+import Routes from './routes';
+import HeartbeatRouter from './heartbeat';
+import WheelsRouter from './wheels';
+import EngineRouter from './engine';
+import {Container} from 'inversify';
 
 describe('Routes', () => {
     let routes: Routes;
@@ -47,12 +47,12 @@ describe('Routes', () => {
         });
 
         const container = new Container();
-        container.bind<HeartbeatRouter>("heartbeatRouter").toConstantValue(heartbeatRouter);
-        container.bind<EngineRouter>("engineRouter").toConstantValue(engineRouter);
-        container.bind<WheelsRouter>("wheelsRouter").toConstantValue(wheelsRouter);
-        container.bind<Routes>("routes").to(Routes);
+        container.bind<HeartbeatRouter>('heartbeatRouter').toConstantValue(heartbeatRouter);
+        container.bind<EngineRouter>('engineRouter').toConstantValue(engineRouter);
+        container.bind<WheelsRouter>('wheelsRouter').toConstantValue(wheelsRouter);
+        container.bind<Routes>('routes').to(Routes);
 
-        routes = container.get<Routes>("routes");
+        routes = container.get<Routes>('routes');
     });
 
     describe('constructor', () => {

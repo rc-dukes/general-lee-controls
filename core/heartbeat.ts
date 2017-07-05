@@ -1,6 +1,6 @@
 'use strict';
-import GeneralLee from "./system/generalLee";
-import {inject, injectable} from "inversify";
+import GeneralLee from './system/generalLee';
+import {inject, injectable} from 'inversify';
 
 /**
  * Heartbeat is the unit that monitors if there is an active connection.
@@ -8,10 +8,10 @@ import {inject, injectable} from "inversify";
  */
 @injectable()
 class Heartbeat {
-    HEARTBEAT_INTERVAL_MS: number = 150;
+    HEARTBEAT_INTERVAL_MS = 150;
     last: number;
 
-    @inject("generalLee") public generalLee: GeneralLee
+    @inject('generalLee') public generalLee: GeneralLee;
 
     /**
      * Constructor.
@@ -27,7 +27,7 @@ class Heartbeat {
      */
     start() {
         setInterval(() => {
-            let currentTime = new Date().getTime();
+            const currentTime = new Date().getTime();
             if (currentTime - this.last > (3 * this.HEARTBEAT_INTERVAL_MS)) {
                 // missed 2 heartbeats
                 if (this.generalLee.isRunning()) {

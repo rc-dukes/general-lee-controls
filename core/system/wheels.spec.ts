@@ -1,8 +1,8 @@
-import * as sinon from "sinon";
-import * as servoblaster from "servoblaster";
-import {Stream} from "servoblaster";
-import Wheels from "./wheels";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import * as servoblaster from 'servoblaster';
+import {Stream} from 'servoblaster';
+import Wheels from './wheels';
+import {Container} from 'inversify';
 
 describe('Wheels', () => {
     let wheels: Wheels;
@@ -12,8 +12,8 @@ describe('Wheels', () => {
 
     beforeEach(() => {
         const container = new Container();
-        container.bind<Wheels>("wheels").to(Wheels);
-        wheels = container.get<Wheels>("wheels");
+        container.bind<Wheels>('wheels').to(Wheels);
+        wheels = container.get<Wheels>('wheels');
         let stream: Stream = {
             write: (value: number) => {
             },

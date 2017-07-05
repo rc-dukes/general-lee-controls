@@ -1,5 +1,5 @@
-import * as servoblaster from "servoblaster";
-import {injectable} from "inversify";
+import * as servoblaster from 'servoblaster';
+import {injectable} from 'inversify';
 
 /** Wheels.*/
 @injectable()

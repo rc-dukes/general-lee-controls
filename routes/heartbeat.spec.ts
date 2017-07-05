@@ -1,9 +1,9 @@
-import * as sinon from "sinon";
-import * as express from "express";
-import HeartbeatRouter from "./heartbeat";
-import GeneralLee from "../core/system/generalLee";
-import Heartbeat from "../core/heartbeat";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import * as express from 'express';
+import HeartbeatRouter from './heartbeat';
+import GeneralLee from '../core/system/generalLee';
+import Heartbeat from '../core/heartbeat';
+import {Container} from 'inversify';
 
 describe('HeartbeatRouter', () => {
     let heartbeatRouter: HeartbeatRouter;
@@ -15,7 +15,7 @@ describe('HeartbeatRouter', () => {
     let responseStatusFn: sinon.SinonStub;
     let responseEndFn: sinon.SinonStub;
 
-    let request: any = {};
+    const request: any = {};
     let response: any;
 
     let routerGetFn: sinon.SinonStub;
@@ -54,11 +54,11 @@ describe('HeartbeatRouter', () => {
         });
 
         const container = new Container();
-        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
-        container.bind<Heartbeat>("heartbeat").toConstantValue(heartbeat);
-        container.bind<HeartbeatRouter>("heartbeatRouter").to(HeartbeatRouter);
+        container.bind<GeneralLee>('generalLee').toConstantValue(generalLee);
+        container.bind<Heartbeat>('heartbeat').toConstantValue(heartbeat);
+        container.bind<HeartbeatRouter>('heartbeatRouter').to(HeartbeatRouter);
 
-        heartbeatRouter = container.get<HeartbeatRouter>("heartbeatRouter");
+        heartbeatRouter = container.get<HeartbeatRouter>('heartbeatRouter');
     });
 
     describe('constructor', () => {

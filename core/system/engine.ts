@@ -1,6 +1,6 @@
-import {injectable} from "inversify";
-import "reflect-metadata";
-import * as servoblaster from "servoblaster";
+import {injectable} from 'inversify';
+import 'reflect-metadata';
+import * as servoblaster from 'servoblaster';
 
 /** Engine. */
 @injectable()

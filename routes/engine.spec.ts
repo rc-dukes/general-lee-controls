@@ -1,9 +1,9 @@
-import * as sinon from "sinon";
-import * as express from "express";
-import EngineRouter from "./engine";
-import GeneralLee from "../core/system/generalLee";
-import Engine from "../core/system/engine";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import * as express from 'express';
+import EngineRouter from './engine';
+import GeneralLee from '../core/system/generalLee';
+import Engine from '../core/system/engine';
+import {Container} from 'inversify';
 
 describe('EngineRouter', () => {
     let engineRouter: EngineRouter;
@@ -17,7 +17,7 @@ describe('EngineRouter', () => {
     let responseStatusFn: sinon.SinonStub;
     let responseEndFn: sinon.SinonStub;
 
-    let request: any = {};
+    const request: any = {};
     let response: any;
 
     let routerPostFn: sinon.SinonStub;
@@ -61,10 +61,10 @@ describe('EngineRouter', () => {
         });
 
         const container = new Container();
-        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
-        container.bind<EngineRouter>("engineRouter").to(EngineRouter);
+        container.bind<GeneralLee>('generalLee').toConstantValue(generalLee);
+        container.bind<EngineRouter>('engineRouter').to(EngineRouter);
 
-        engineRouter = container.get<EngineRouter>("engineRouter");
+        engineRouter = container.get<EngineRouter>('engineRouter');
     });
 
     describe('constructor', () => {

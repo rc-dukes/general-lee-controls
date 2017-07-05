@@ -1,7 +1,7 @@
-import * as sinon from "sinon";
-import Heartbeat from "./heartbeat";
-import GeneralLee from "./system/generalLee";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import Heartbeat from './heartbeat';
+import GeneralLee from './system/generalLee';
+import {Container} from 'inversify';
 
 describe('Heartbeat', () => {
     let generalLee: GeneralLee;
@@ -19,10 +19,10 @@ describe('Heartbeat', () => {
         clock = sinon.useFakeTimers();
 
         const container = new Container();
-        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
-        container.bind<Heartbeat>("heartbeat").to(Heartbeat);
+        container.bind<GeneralLee>('generalLee').toConstantValue(generalLee);
+        container.bind<Heartbeat>('heartbeat').to(Heartbeat);
 
-        heartbeat = container.get<Heartbeat>("heartbeat");
+        heartbeat = container.get<Heartbeat>('heartbeat');
     });
 
     describe('constructor', () => {

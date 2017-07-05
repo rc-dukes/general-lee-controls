@@ -1,14 +1,14 @@
-import {inject, injectable} from "inversify";
-import Engine from "./engine";
-import Wheels from "./wheels";
-import Lights from "./lights";
+import {inject, injectable} from 'inversify';
+import Engine from './engine';
+import Wheels from './wheels';
+import Lights from './lights';
 
 /** The General Lee. */
 @injectable()
 class GeneralLee {
-    @inject("engine") public engine: Engine;
-    @inject("wheels") public wheels: Wheels;
-    @inject("lights") public lights: Lights;
+    @inject('engine') public engine: Engine;
+    @inject('wheels') public wheels: Wheels;
+    @inject('lights') public lights: Lights;
     running: boolean;
 
     /** Constructor. */

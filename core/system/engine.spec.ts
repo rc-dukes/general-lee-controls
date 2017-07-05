@@ -1,8 +1,8 @@
-import Engine from "./engine";
-import * as sinon from "sinon";
-import * as servoblaster from "servoblaster";
-import {Stream} from "servoblaster";
-import {Container} from "inversify";
+import Engine from './engine';
+import * as sinon from 'sinon';
+import * as servoblaster from 'servoblaster';
+import {Stream} from 'servoblaster';
+import {Container} from 'inversify';
 
 describe('Engine', () => {
     let engine: Engine;
@@ -12,8 +12,8 @@ describe('Engine', () => {
 
     beforeEach(() => {
         const container = new Container();
-        container.bind<Engine>("engine").to(Engine);
-        engine = container.get<Engine>("engine");
+        container.bind<Engine>('engine').to(Engine);
+        engine = container.get<Engine>('engine');
         const stream: Stream = {
             write: (value: number) => {
             },

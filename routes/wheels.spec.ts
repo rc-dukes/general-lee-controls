@@ -1,9 +1,9 @@
-import * as sinon from "sinon";
-import * as express from "express";
-import WheelsRouter from "./wheels";
-import GeneralLee from "../core/system/generalLee";
-import Wheels from "../core/system/wheels";
-import {Container} from "inversify";
+import * as sinon from 'sinon';
+import * as express from 'express';
+import WheelsRouter from './wheels';
+import GeneralLee from '../core/system/generalLee';
+import Wheels from '../core/system/wheels';
+import {Container} from 'inversify';
 
 describe('WheelsRouter', () => {
     let wheelsRouter: WheelsRouter;
@@ -17,7 +17,7 @@ describe('WheelsRouter', () => {
     let responseStatusFn: sinon.SinonStub;
     let responseEndFn: sinon.SinonStub;
 
-    let request: any = {};
+    const request: any = {};
     let response: any;
 
     let routerPostFn: sinon.SinonStub;
@@ -61,10 +61,10 @@ describe('WheelsRouter', () => {
         });
 
         const container = new Container();
-        container.bind<GeneralLee>("generalLee").toConstantValue(generalLee);
-        container.bind<WheelsRouter>("wheelsRouter").to(WheelsRouter);
+        container.bind<GeneralLee>('generalLee').toConstantValue(generalLee);
+        container.bind<WheelsRouter>('wheelsRouter').to(WheelsRouter);
 
-        wheelsRouter = container.get<WheelsRouter>("wheelsRouter");
+        wheelsRouter = container.get<WheelsRouter>('wheelsRouter');
     });
 
     describe('constructor', () => {
