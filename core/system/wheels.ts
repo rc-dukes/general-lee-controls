@@ -4,11 +4,11 @@ import {injectable} from 'inversify';
 /** Wheels.*/
 @injectable()
 class Wheels {
-    SERVOBLASTER_ID_WHEEL: number = 2; // GPIO-18
-    WHEEL_MAX_LEFT: number = 120;
-    WHEEL_MAX_RIGHT: number = 190;
-    WHEEL_CENTER: number = 155;
-    WHEEL_STEP_SIZE: number = 5;
+    SERVOBLASTER_ID_WHEEL = 2; // GPIO-18
+    WHEEL_MAX_LEFT= 120;
+    WHEEL_MAX_RIGHT= 190;
+    WHEEL_CENTER= 155;
+    WHEEL_STEP_SIZE= 5;
 
     wheelPosition: number;
 

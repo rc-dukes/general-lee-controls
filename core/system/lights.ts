@@ -4,9 +4,9 @@ import {injectable} from 'inversify';
 /** Lights. */
 @injectable()
 class Lights {
-    SERVOBLASTER_ID_LED: number = 6; // GPIO-24
-    LED_ON: number = 250;
-    LED_OFF: number = 0;
+    SERVOBLASTER_ID_LED = 6; // GPIO-24
+    LED_ON = 250;
+    LED_OFF = 0;
 
     on: boolean;
 

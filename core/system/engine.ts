@@ -5,9 +5,9 @@ import * as servoblaster from 'servoblaster';
 /** Engine. */
 @injectable()
 class Engine {
-    SERVOBLASTER_ID_MOTOR: number = 1; // GPIO-17
-    SPEED_ZERO: number = 130;
-    SPEED_STEP_SIZE: number = 1;
+    SERVOBLASTER_ID_MOTOR = 1; // GPIO-17
+    SPEED_ZERO = 130;
+    SPEED_STEP_SIZE = 1;
 
     MIN_SPEED_REVERSE: number = this.SPEED_ZERO - 9;
     MIN_SPEED_FORWARD: number = this.SPEED_ZERO + 8;

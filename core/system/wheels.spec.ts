@@ -1,6 +1,5 @@
 import * as sinon from 'sinon';
 import * as servoblaster from 'servoblaster';
-import {Stream} from 'servoblaster';
 import Wheels from './wheels';
 import {Container} from 'inversify';
 
@@ -14,7 +13,7 @@ describe('Wheels', () => {
         const container = new Container();
         container.bind<Wheels>('wheels').to(Wheels);
         wheels = container.get<Wheels>('wheels');
-        let stream: Stream = {
+        const stream: servoblaster.Stream = {
             write: (value: number) => {
             },
             end: () => {
