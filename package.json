@@ -4,10 +4,10 @@
   "description": "General Lee - Controls ",
   "main": "index.js",
   "scripts": {
-    "lint": "tslint **/*.ts",
-    "build": "tsc",
-    "test": "tsc && jasmine-node dist --match .",
-    "start": "node dist/index.js"
+    "lint": "tslint -p tsconfig.api.json && tslint -p tsconfig.interface.json",
+    "build": "tsc -p tsconfig.api.json && tsc -p tsconfig.interface.json",
+    "test": "jasmine-node . --match .",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -31,19 +31,23 @@
   "devDependencies": {
     "@types/express": "4.0.36",
     "@types/jasmine": "2.5.53",
-    "@types/node": "8.0.6",
+    "@types/jquery": "3.2.6",
+    "@types/node": "8.0.7",
     "@types/sinon": "2.3.2",
     "jasmine-node": "1.14.5",
+    "node-sass": "4.5.3",
     "sinon": "2.3.6",
-    "tslint": "5.4.3",
+    "tslint": "5.5.0",
     "tslint-eslint-rules": "4.1.1",
     "typescript": "2.4.1",
     "vrsource-tslint-rules": "5.1.0"
   },
   "dependencies": {
     "express": "4.15.3",
-    "inversify": "^4.1.1",
-    "reflect-metadata": "^0.1.10",
+    "inversify": "4.2.0",
+    "jquery": "3.2.1",
+    "reflect-metadata": "0.1.10",
+    "requirejs": "2.3.3",
     "servoblaster": "0.1.1"
   }
 }

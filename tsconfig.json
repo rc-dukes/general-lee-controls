@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "baseUrl": ".",
     "declaration": true,
-    "removeComments": true,
-    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
@@ -12,36 +11,19 @@
       "es2015",
       "dom"
     ],
-    "sourceMap": true,
-    "pretty": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
-    "noFallthroughCasesInSwitch": true,
+    "noLib": false,
+    "pretty": true,
+    "removeComments": true,
+    "sourceMap": true,
     "typeRoots": [
       "node_modules/@types",
       "node_modules"
-    ],
-    "types": [
-      "express",
-      "jasmine",
-      "node",
-      "sinon"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "servoblaster": [
-        "@types/servoblaster/servoblaster.d.ts"
-      ]
-    }
+    ]
   },
-  "include": [
-    "core/**/*.ts",
-    "routes/**/*.ts",
-    "index.ts"
-  ],
   "exclude": [
     "node_modules"
   ]

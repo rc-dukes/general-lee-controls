@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "paths": {
+      "servoblaster": [
+        "@types/servoblaster/servoblaster.d.ts"
+      ]
+    },
+    "target": "es6",
+    "types": [
+      "express",
+      "jasmine",
+      "node",
+      "sinon"
+    ]
+  },
+  "include": [
+    "core/**/*.ts",
+    "api/**/*.ts",
+    "index.ts"
+  ]
+}
