@@ -1,0 +1,51 @@
+$helvetica: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+$font-size-default: 15px;
+$font-weight-default:500;
+$font-line-height-default: 1.2;
+
+$base-font-size: 1em !default;
+$base-line-height: 1.25em !default;
+$base-font-family: $helvetica !default;
+$base-font-weight: normal !default;
+
+// Colors
+$orange: #F74427;
+$darkgrey: #1A1A0E;
+$blue: #102B78;
+$red: #C91018;
+$white: #FFFAFA;
+
+@font-face {
+  font-family: "general-lee";
+  src:url("fonts/general-lee.eot");
+  src:url("fonts/general-lee.eot?#iefix") format("embedded-opentype"),
+  url("fonts/general-lee.woff") format("woff"),
+  url("fonts/general-lee.ttf") format("truetype"),
+  url("fonts/general-lee.svg#general-lee") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+// Base
+html {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight;
+  font-size: $font-size-default;
+}
+
+body {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight;
+  font-size: $font-size-default;
+  padding: 0;
+  margin: 0;
+  line-height: $base-line-height;
+  display: inline
+}
+
+.container {
+  padding:10px 30px 0px 30px;
+}
+
+@import "icons";
+@import "controls/controls";
